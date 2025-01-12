@@ -1,5 +1,6 @@
 __pycache__/
 .venv/
 checkpoints/
+custom_images/
 data/
 training_history.png

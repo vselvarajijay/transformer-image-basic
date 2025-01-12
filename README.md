@@ -155,3 +155,89 @@ python main.py --mode train \
 - Flat curves → Increase learning rate
 - Diverging metrics → Increase regularization
 - Training spikes → Reduce batch size
+
+
+
+## Running Inference on Custom Images
+
+The project includes an `inference.py` script that allows you to run predictions on your own images using a trained model.
+
+#### Setup for Inference
+
+1. Ensure you have a trained model (checkpoint file) in the `checkpoints` directory
+2. Create a directory called `custom_images`
+3. Place your test images in the `custom_images` directory (supports PNG, JPG, JPEG)
+4. Run the inference script:
+```bash
+python inference.py
+```
+
+#### How Inference Works
+
+The inference process follows these steps:
+1. Loads the most recent model checkpoint
+2. Processes each image to match CIFAR-10 format (32x32 RGB)
+3. Runs the model prediction
+4. Outputs the predicted class for each image
+
+#### Supported Classes
+
+The model can classify images into these 10 categories:
+- airplane
+- automobile
+- bird
+- cat
+- deer
+- dog
+- frog
+- horse
+- ship
+- truck
+
+#### Image Requirements
+- Format: PNG, JPG, or JPEG
+- Size: Any (automatically resized to 32x32)
+- Color: RGB or RGBA (converted to RGB)
+
+#### Example Usage
+
+```bash
+# First, train a model if you haven't already
+python main.py --mode train
+
+# Create directory for your images
+mkdir custom_images
+
+# Copy your images to the directory
+cp path/to/your/image.jpg custom_images/
+
+# Run inference
+python inference.py
+```
+
+#### Example Output
+```
+Using checkpoint: checkpoints/model_epoch50_20250111_194523.pt
+Loading checkpoint: checkpoints/model_epoch50_20250111_194523.pt
+
+Processing images...
+
+Image: car.jpg
+Prediction: automobile
+
+Image: pet.jpg
+Prediction: dog
+```
+
+#### Best Practices
+- Use clear, well-lit images
+- Center the subject in the frame
+- Avoid multiple subjects in one image
+- Use images similar to CIFAR-10 style (simple, clear subjects)
+- Test with different images if predictions seem incorrect
+
+#### Troubleshooting
+- **No checkpoint found**: Train a model first using `python main.py --mode train`
+- **Image error**: Ensure image file is not corrupted and is in supported format
+- **Low confidence**: Try different angles or lighting conditions
+- **Wrong predictions**: Remember the model is limited to 10 categories and was trained on CIFAR-10's specific style
